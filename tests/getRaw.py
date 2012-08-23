@@ -7,7 +7,7 @@ import lsst.utils.tests as utilsTests
 
 from lsst.pex.policy import Policy
 import lsst.daf.persistence as dafPersist
-from lsst.obs.sst import SstMapper
+from lsst.obs.wiyn.whirc import WhircMapper
 
 import lsst.afw.display.ds9 as ds9
 import lsst.afw.display.utils as displayUtils
@@ -21,8 +21,8 @@ except NameError:
 
 
 def getButler(datadir):
-    bf = dafPersist.ButlerFactory(mapper=SstMapper(root=os.path.join(datadir, "DATA"),
-                                                   calibRoot=os.path.join(datadir, "CALIB")))
+    bf = dafPersist.ButlerFactory(mapper=WhircMapper(root=os.path.join(datadir, "DATA"),
+                                                     calibRoot=os.path.join(datadir, "CALIB")))
     return bf.create()
 
 
@@ -30,13 +30,13 @@ class GetRawTestCase(unittest.TestCase):
     """Testing butler raw image retrieval"""
 
     def setUp(self):
-        self.datadir = os.getenv("TESTDATA_SST_DIR")
-        assert self.datadir, "testdata_sst is not setup"
+        self.datadir = os.getenv("TESTDATA_WHIRC_DIR")
+        assert self.datadir, "testdata_whirc is not setup"
         self.butler = getButler(self.datadir)
-        self.size = (2048, 4096)
-        self.dataId = {'year': 2012,
-                       'doy': 89,
-                       'frac': 132221,
+        self.size = (2048, 2048)
+        self.dataId = {'year': 2011,
+                       'month': 11,
+                       'day': 15,
                        }
     def tearDown(self):
         del self.butler
