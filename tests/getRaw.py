@@ -21,8 +21,8 @@ except NameError:
 
 
 def getButler(datadir):
-    bf = dafPersist.ButlerFactory(mapper=WhircMapper(root=os.path.join(datadir, "DATA"),
-                                                     calibRoot=os.path.join(datadir, "CALIB")))
+    bf = dafPersist.ButlerFactory(mapper=WhircMapper(root=os.path.join(datadir, "raw"),
+                                                     calibRoot=os.path.join(datadir, "calib")))
     return bf.create()
 
 

@@ -1,5 +1,6 @@
 #<?cfg paf policy ?>
 #
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Camera: {
     name: "WHIRC"
     serial: 1
@@ -15,20 +16,27 @@ Camera: {
         # No idea yet
     }
 }
-Amp: {
-    ptype: "default"
-    datasec: 0 2047 0 2047
-    biassec: 2048 2143 0 2047
-    ewidth: 2049
-    eheight: 2049
+
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Raft: {
+    nCol: 1
+    nRow: 1
+    Ccd: {
+        name: "Chip"
+        serial:   0
+        index: 0 0 
+        offset: 0. 0.
+    }
 }
+
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Ccd: {
     ptype: "default"
     pixelSize: 1.0 # All positions in pixels, rather than mm
     nCol: 1
     nRow: 1
     Amp: {
-        serial: 1
+        serial: 0
         ptype: "default"
         flipLR: false
         nQuarter: 0
@@ -37,15 +45,26 @@ Ccd: {
         index: 0 0
     }
 }
+
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Amp: {
+    ptype: "default"
+    datasec: 0 0 2047 2047
+    biassec: 2048 0 2143 2047
+    ewidth: 20144
+    eheight: 2050
+}
+
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Electronic: {
     Raft: {
        name: "WHIRC"
-       serial: -1
+       serial:0 
 
         Ccd: {
              ptype: "default"
              name: "Chip"
-             serial: 0100
+             serial: 0
              Amp: {
                  index: 0 0
                  gain: 1.673620

@@ -16,6 +16,7 @@ class WhircMapper(CameraMapper):
     def __init__(self, outputRoot=None, **kwargs):
         policyFile = pexPolicy.DefaultPolicyFile("obs_wiyn", "WhircMapper.paf", "policy")
         policy = pexPolicy.Policy(policyFile)
+#        print policyFile.getRepositoryPath()
         super(WhircMapper, self).__init__(policy, policyFile.getRepositoryPath(), **kwargs)
 
         afwImageUtils.defineFilter('OPEN', lambdaEff=650)
@@ -88,7 +89,7 @@ class WhircMapper(CameraMapper):
     def bypass_raw(self, datasetType, pythonType, location, dataId):
         ccd = dataId['ccd']
         x, y = 1, 1
-        xSize, ySize = 2048, 4096
+        xSize, ySize = 2048, 2048
     
         filename = location.getLocations()[0]
         bbox = afwGeom.Box2I(afwGeom.Point2I(x * xSize, y * ySize), afwGeom.Extent2I(xSize, ySize))
