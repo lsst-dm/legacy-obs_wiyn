@@ -19,7 +19,7 @@ class WhircMapper(CameraMapper):
 #        print policyFile.getRepositoryPath()
         super(WhircMapper, self).__init__(policy, policyFile.getRepositoryPath(), **kwargs)
 
-        afwImageUtils.defineFilter('OPEN', lambdaEff=650)
+        afwImageUtils.defineFilter('OPEN', lambdaEff=2000)
 
     def _defectLookup(self, dataId, ccdSerial):
         """Find the defects for a given CCD.
@@ -47,6 +47,9 @@ class WhircMapper(CameraMapper):
     def bypass_ccdExposureId_bits(self, datasetType, pythonType, location, dataId):
         return 32 # not really, but this leaves plenty of space for sources
 
+    def _extractDetectorName(self, dataId):
+        return "VIRGO1"
+
     def _computeStackExposureId(self, dataId):
         """Compute the 64-bit (long) identifier for a Stack exposure.
 
@@ -72,34 +75,37 @@ class WhircMapper(CameraMapper):
         year = dataId['year']
         mon  = dataId['month']
         day  = dataId['day']
-        frac = dataId['frac']
+        mjd  = dataId['mjd']
 
         exptime = 1.0 # XXX FIXME
 
         calib = item.getCalib()
         calib.setExptime(exptime)
 
-        mjd = 51544.0 + int((year - 2000) * 365.25) + doy + frac/10**6 + exptime / 2.0
         obsMidpoint = dafBase.DateTime(mjd, dafBase.DateTime.MJD, dafBase.DateTime.UTC)
         calib.setMidTime(obsMidpoint)
 
     def _setFilter(self, mapping, item, dataId):
         item.setFilter(afwImage.Filter("OPEN"))
 
-    def bypass_raw(self, datasetType, pythonType, location, dataId):
+    def bypass_flat(self, datasetType, pythonType, location, dataId):
         ccd = dataId['ccd']
-        x, y = 1, 1
-        xSize, ySize = 2048, 2048
     
         filename = location.getLocations()[0]
-        bbox = afwGeom.Box2I(afwGeom.Point2I(x * xSize, y * ySize), afwGeom.Extent2I(xSize, ySize))
-        image = afwImage.DecoratedImageF(filename, hdu, bbox)
+        print "Filename: ", filename
+        image = afwImage.DecoratedImageF(filename)
         exp = exposureFromImage(image)
         del image
 
-        md = exp.getMetadata()
-        md.add("EXPTIME", 1.0)
-        md.add("FILTER", "OPEN")
+        return self._standardizeExposure(self.exposures['flat'], exp, dataId, filter=True, trimmed=False)
+
+    def bypass_raw(self, datasetType, pythonType, location, dataId):
+        ccd = dataId['ccd']
+    
+        filename = location.getLocations()[0]
+        image = afwImage.DecoratedImageF(filename)
+        exp = exposureFromImage(image)
+        del image
 
         return self._standardizeExposure(self.exposures['raw'], exp, dataId, filter=True, trimmed=False)
 
@@ -112,5 +118,7 @@ class WhircMapper(CameraMapper):
     def getKeys(self, datasetType, *args, **kwargs):
         keyDict = super(WhircMapper, self).getKeys(datasetType, *args, **kwargs)
         if datasetType == "raw":
+            keyDict['ccd'] = int
+        if datasetType == "flat":
             keyDict['ccd'] = int
         return keyDict

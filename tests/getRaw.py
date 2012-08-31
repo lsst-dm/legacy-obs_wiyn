@@ -33,11 +33,15 @@ class GetRawTestCase(unittest.TestCase):
         self.datadir = os.getenv("TESTDATA_WHIRC_DIR")
         assert self.datadir, "testdata_whirc is not setup"
         self.butler = getButler(self.datadir)
-        self.size = (2048, 2048)
-        self.dataId = {'year': 2011,
+        self.size = (2144, 2050)
+        self.dataId = {'date': 20111115,
+                       'year': 2011,
                        'month': 11,
                        'day': 15,
+                       'expnum': 237,
+                       'mjd': 55881.333657
                        }
+
     def tearDown(self):
         del self.butler
 
@@ -51,30 +55,30 @@ class GetRawTestCase(unittest.TestCase):
         self.assertEqual(exp.getWidth(), self.size[0])
         self.assertEqual(exp.getHeight(), self.size[1])
         self.assertEqual(exp.getFilter().getFilterProperty().getName(), "OPEN") 
-        self.assertEqual(exp.getDetector().getId().getName(), "%d,%d" % (ccd % 6, ccd // 6))
+        self.assertEqual(exp.getDetector().getId().getName(), "VIRGO1")
 
     def testRaw(self):
         """Test retrieval of raw image"""
-        for ccd in range(12):
-            raw = self.butler.get("raw", self.dataId, ccd=ccd)
+        ccd='VIRGO1'
+        raw = self.butler.get("raw", self.dataId, ccd=ccd)
 
-            self.assertExposure(raw, ccd)
+        self.assertExposure(raw, ccd)
 
-            if display:
-                ccd = cameraGeom.cast_Ccd(raw.getDetector())
-                for amp in ccd:
-                    amp = cameraGeom.cast_Amp(amp)
-                    print ccd.getId(), amp.getId(), amp.getDataSec().toString(), \
-                          amp.getBiasSec().toString(), amp.getElectronicParams().getGain()
-                cameraGeomUtils.showCcd(ccd, ccdImage=raw, frame=frame)
-                frame += 1
+        if display:
+            ccd = cameraGeom.cast_Ccd(raw.getDetector())
+            for amp in ccd:
+                amp = cameraGeom.cast_Amp(amp)
+                print ccd.getId(), amp.getId(), amp.getDataSec().toString(), \
+                      amp.getBiasSec().toString(), amp.getElectronicParams().getGain()
+            cameraGeomUtils.showCcd(ccd, ccdImage=raw, frame=frame)
+            frame += 1
 
-    def testFlat(self):
-        """Test retrieval of flat image"""
-        for ccd in range(12):
-            flat = self.butler.get("flat", self.dataId, ccd=ccd)
-
-            self.assertExposure(flat, ccd)
+#     def testFlat(self):
+#         """Test retrieval of flat image"""
+#         ccd='VIRGO1'
+#         flat = self.butler.get("flat", self.dataId, ccd=ccd)
+# 
+#         self.assertExposure(flat, ccd)
 
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 

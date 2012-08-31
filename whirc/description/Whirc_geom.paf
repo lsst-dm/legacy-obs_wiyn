@@ -8,7 +8,7 @@ Camera: {
     nRow: 1
     Raft: {
         serial: -1
-        name: "R:0,0"
+        name: "whirc"
         index: 0 0
         offset: 0. 0.
     }
@@ -22,7 +22,7 @@ Raft: {
     nCol: 1
     nRow: 1
     Ccd: {
-        name: "Chip"
+        name: "VIRGO1"
         serial:   0
         index: 0 0 
         offset: 0. 0.
@@ -63,7 +63,7 @@ Electronic: {
 
         Ccd: {
              ptype: "default"
-             name: "Chip"
+             name: "VIRGO1"
              serial: 0
              Amp: {
                  index: 0 0

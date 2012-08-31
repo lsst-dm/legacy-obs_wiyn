@@ -8,92 +8,92 @@ defaultLevel: "Ccd"
 
 exposures: {
     raw: {
-        template:    "raw/%(date)d/obj_%(visit)d.fits"
+        template:    "%(date)d/obj_%(expnum)d.fits"
         python:     "lsst.afw.image.DecoratedImageU"
         persistable:         "DecoratedImageU"
         storage:     "FitsStorage"
         level:        "Ccd"
         tables:       "raw"
-        columns:      "visit"
+        columns:      "expnum"
     }
     postISRCCD: {
-        template:    "work/%(date)d/obj_%(visit)d.wp.sky.flat.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:    "work/%(date)d/obj_%(expnum)d.wp.sky.flat.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         tables:       "raw"
-        columns:      "visit"
+        columns:      "expnum"
     }
     calexp: {
-        template:      "work/%(date)d/obj_%(filter)s_%(visit)d.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:      "work/%(date)d/obj_%(filter)s_%(expnum)d.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         tables:       "raw"
-        columns:      "visit"
+        columns:      "expnum"
     }
     biasOut: {
-        template:    "calib/%(date)d/bias_%(visit)d.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:    "calib/%(date)d/bias_%(expnum)d.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         tables:       "raw"
-        columns:      "visit"
+        columns:      "expnum"
     }
     darkOut: {
-        template:    "dark/%(date)d/dark_%(visit)d.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:    "dark/%(date)d/dark_%(expnum)d.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         tables:       "raw"
-        columns:      "visit"
+        columns:      "expnum"
     }
     flatOut: {
-        template:    "flat/%(date)d/flat_%(filter)_%(visit)d.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:    "flat/%(date)d/flat_%(filter)_%(expnum)d.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         tables:       "raw"
-        columns:      "visit"
+        columns:      "expnum"
     }
     coaddTempExp: {
-        template:    "coaddTempExp/$(date)d/coadd_%(filter)s_%(visit)d.fits"
-        python:      "lsst.afw.image.ExposureF"
-        persistable: "ExposureF"
+        template:    "coaddTempExp/$(date)d/coadd_%(filter)s_%(expnum)d.fits"
+        python:      "lsst.afw.image.expnumF"
+        persistable: "expnumF"
         storage:     "FitsStorage"
         tables:       "raw"
-        columns:      "visit"
+        columns:      "expnum"
     }
 }
 
 calibrations: {
     bias: {
-        template:    "bias/%(date)d/bias_%(visit)d.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:    "bias/%(date)d/bias_%(expnum)d.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         tables:       "bias"
         columns:     "datetime"
     }
     dark: {
-        template:    "dark/%(date)d/dark_%(visit)d.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:    "dark/%(date)d/dark_%(expnum)d.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         tables:       "dark"
         columns:     "datetime"
     }
     flat: {
-        template:    "flat/%(date)d/flat_%(filter)_%(visit)d.fits"
-        python:        "lsst.afw.image.ExposureF"
-        persistable:        "ExposureF"
+        template:    "flat/%(date)d/flat_%(filter)_%(expnum)d.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
         storage:    "FitsStorage"
         level:        "Ccd"
         reference:    "raw"
@@ -103,7 +103,7 @@ calibrations: {
 }
 
 datasets: {
-    ccdExposureId: {
+    ccdexpnumId: {
         template:     "ignored"
         # Provide something to import, although we actually return a tuple
         python:       "lsst.daf.base.PropertySet"
@@ -111,7 +111,7 @@ datasets: {
         storage:      "ignored"
         tables:       "raw"
     }
-    ccdExposureId_bits: {
+    ccdexpnumId_bits: {
         template:     "ignored"
         # Provide something to import, although we actually return a tuple
         python:       "lsst.daf.base.PropertySet"
@@ -169,7 +169,7 @@ datasets: {
     }
 
     icSrc: {
-        template:      "work/%(date)d/ICSRC-%(visit)d_%(filter)s.fits"
+        template:      "work/%(date)d/ICSRC-%(expnum)d_%(filter)s.fits"
         python:        "lsst.afw.table.SourceCatalog"
         persistable:        "SourceCatalog"
         storage:    "FitsCatalogStorage"
@@ -177,7 +177,7 @@ datasets: {
         tables:        raw_skyTile
     }
     icMatch: {
-        template:      "work/%(date)d/ICMATCH_%(visit)d_%(filter)s.fits"
+        template:      "work/%(date)d/ICMATCH_%(expnum)d_%(filter)s.fits"
         python:        "lsst.afw.table.BaseCatalog"
         persistable:        "BaseCatalog"
         storage:    "FitsCatalogStorage"
