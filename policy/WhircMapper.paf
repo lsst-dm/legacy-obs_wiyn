@@ -44,7 +44,7 @@ exposures: {
         columns:      "expnum"
     }
     darkOut: {
-        template:    "dark/%(date)d/dark_%(expnum)d.fits"
+        template:    "calib/%(date)d/dark_%(expnum)d.fits"
         python:        "lsst.afw.image.expnumF"
         persistable:        "expnumF"
         storage:    "FitsStorage"
@@ -53,7 +53,7 @@ exposures: {
         columns:      "expnum"
     }
     flatOut: {
-        template:    "flat/%(date)d/flat_%(filter)_%(expnum)d.fits"
+        template:    "calib/%(date)d/flat_%(filter)_%(expnum)d.fits"
         python:        "lsst.afw.image.expnumF"
         persistable:        "expnumF"
         storage:    "FitsStorage"
@@ -73,7 +73,7 @@ exposures: {
 
 calibrations: {
     bias: {
-        template:    "bias/%(date)d/bias_%(expnum)d.fits"
+        template:    "calib/%(date)d/bias.fits"
         python:        "lsst.afw.image.expnumF"
         persistable:        "expnumF"
         storage:    "FitsStorage"
@@ -82,7 +82,7 @@ calibrations: {
         columns:     "datetime"
     }
     dark: {
-        template:    "dark/%(date)d/dark_%(expnum)d.fits"
+        template:    "calib/%(date)d/dark.fits"
         python:        "lsst.afw.image.expnumF"
         persistable:        "expnumF"
         storage:    "FitsStorage"
@@ -91,7 +91,7 @@ calibrations: {
         columns:     "datetime"
     }
     flat: {
-        template:    "flat/%(date)d/flat_%(filter)_%(expnum)d.fits"
+        template:    "calib/%(date)d/flat_%(filter).fits"
         python:        "lsst.afw.image.expnumF"
         persistable:        "expnumF"
         storage:    "FitsStorage"
