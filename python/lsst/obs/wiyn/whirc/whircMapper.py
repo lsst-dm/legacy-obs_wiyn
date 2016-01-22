@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import division
+
 import os
 import pwd
 
@@ -19,7 +21,10 @@ class WhircMapper(CameraMapper):
 #        print policyFile.getRepositoryPath()
         super(WhircMapper, self).__init__(policy, policyFile.getRepositoryPath(), **kwargs)
 
-        afwImageUtils.defineFilter('OPEN', lambdaEff=2000)
+        afwImageUtils.defineFilter('OPEN', lambdaEff=1750)  # nm
+        afwImageUtils.defineFilter('J' , lambdaEff=1250)
+        afwImageUtils.defineFilter('H' , lambdaEff=1650)
+        afwImageUtils.defineFilter('KS', lambdaEff=2175, alias=['Ks'])
 
     def _defectLookup(self, dataId, ccdSerial):
         """Find the defects for a given CCD.
@@ -77,37 +82,17 @@ class WhircMapper(CameraMapper):
         day  = dataId['day']
         mjd  = dataId['mjd']
 
-        exptime = 1.0 # XXX FIXME
+        exptime = dataId['exptime']
 
         calib = item.getCalib()
         calib.setExptime(exptime)
 
-        obsMidpoint = dafBase.DateTime(mjd, dafBase.DateTime.MJD, dafBase.DateTime.UTC)
+        obsMidpoint = dafBase.DateTime(mjd, dafBase.DateTime.MJD, dafBase.DateTime.UTC) + exptime / 2
         calib.setMidTime(obsMidpoint)
 
     def _setFilter(self, mapping, item, dataId):
-        item.setFilter(afwImage.Filter("OPEN"))
-
-    def bypass_flat(self, datasetType, pythonType, location, dataId):
-        ccd = dataId['ccd']
-    
-        filename = location.getLocations()[0]
-        print "Filename: ", filename
-        image = afwImage.DecoratedImageF(filename)
-        exp = exposureFromImage(image)
-        del image
-
-        return self._standardizeExposure(self.exposures['flat'], exp, dataId, filter=True, trimmed=False)
-
-    def bypass_raw(self, datasetType, pythonType, location, dataId):
-        ccd = dataId['ccd']
-    
-        filename = location.getLocations()[0]
-        image = afwImage.DecoratedImageF(filename)
-        exp = exposureFromImage(image)
-        del image
-
-        return self._standardizeExposure(self.exposures['raw'], exp, dataId, filter=True, trimmed=False)
+        item.setFilter(afwImage.Filter("FILTER1"))
+        # FILTER2 is always set to "OPEN"
 
     def std_dark(self, item, dataId):
         mapping = self.calibrations['dark']
