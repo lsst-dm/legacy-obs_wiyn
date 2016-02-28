@@ -1,1 +1,1 @@
-from whircMapper import *
+from .whircMapper import *

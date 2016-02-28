@@ -2,24 +2,24 @@
 
 from __future__ import division
 
-import os
-import pwd
-
 import lsst.daf.base as dafBase
-import lsst.afw.geom as afwGeom
-import lsst.afw.coord as afwCoord
 import lsst.afw.image as afwImage
 import lsst.afw.image.utils as afwImageUtils
 
-from lsst.daf.butlerUtils import CameraMapper, exposureFromImage
+from lsst.obs.base import CameraMapper
 import lsst.pex.policy as pexPolicy
 
+__all__ = ["WhircMapper"]
+
+
 class WhircMapper(CameraMapper):
+    packageName = 'obs_wiyn'
+
     def __init__(self, outputRoot=None, **kwargs):
-        policyFile = pexPolicy.DefaultPolicyFile("obs_wiyn", "WhircMapper.paf", "policy")
+        policyFile = pexPolicy.DefaultPolicyFile(self.packageName, "WhircMapper.paf", "policy")
         policy = pexPolicy.Policy(policyFile)
-#        print policyFile.getRepositoryPath()
-        super(WhircMapper, self).__init__(policy, policyFile.getRepositoryPath(), **kwargs)
+
+        CameraMapper.__init__(self, policy, policyFile.getRepositoryPath(), **kwargs)
 
         afwImageUtils.defineFilter('OPEN', lambdaEff=1750)  # nm
         afwImageUtils.defineFilter('J' , lambdaEff=1250)
@@ -42,9 +42,13 @@ class WhircMapper(CameraMapper):
         pathId = self._transformId(dataId)
         year = pathId['year']
         mon  = pathId['month']
-        sod  = pathId['day']
+        day  = pathId['day']
         ccd  = pathId['obsnum']
-        return 0 # XXX FIXME
+        return long('{}{}{}{}'.format(year, mon, day, ccd))
+
+    def bypass_defects(self, datasetType, pythonType, location, dataId):
+        """ since we have no defects, return an empty list.  Fix this when defects exist """
+        return []
 
     def bypass_ccdExposureId(self, datasetType, pythonType, location, dataId):
         return self._computeCcdExposureId(dataId)

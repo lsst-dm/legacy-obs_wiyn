@@ -3,8 +3,8 @@
 needCalibRegistry: false
 
 camera:        "../whirc/description/Whirc_geom.paf"
-defects:    "../whirc/description/defects"
-defaultLevel: "Ccd"
+
+defaultLevel: "field"
 
 exposures: {
     raw: {
@@ -17,7 +17,16 @@ exposures: {
         columns:      "expnum"
     }
     postISRCCD: {
-        template:    "work/%(date)d/obj_%(expnum)d.wp.sky.flat.fits"
+        template:    "%(date)d/obj_%(expnum)d.wp.sky.flat.fits"
+        python:        "lsst.afw.image.expnumF"
+        persistable:        "expnumF"
+        storage:    "FitsStorage"
+        level:        "Ccd"
+        tables:       "raw"
+        columns:      "expnum"
+    }
+    instcal: {
+        template:      "instcal/%(field)s_%(set)s_%(filter)s_%(date)08d.fits"
         python:        "lsst.afw.image.expnumF"
         persistable:        "expnumF"
         storage:    "FitsStorage"
@@ -26,7 +35,7 @@ exposures: {
         columns:      "expnum"
     }
     calexp: {
-        template:      "work/%(date)d/obj_%(filter)s_%(expnum)d.fits"
+        template:      "calexp/%(field)_%(set)_%(filter)s_%(date)d.fits"
         python:        "lsst.afw.image.expnumF"
         persistable:        "expnumF"
         storage:    "FitsStorage"
@@ -169,7 +178,7 @@ datasets: {
     }
 
     icSrc: {
-        template:      "work/%(date)d/ICSRC-%(expnum)d_%(filter)s.fits"
+        template:      "icSrc/ICSRC-%(field)s_%(set)s_%(filter)s_%(date)08d.fits"
         python:        "lsst.afw.table.SourceCatalog"
         persistable:        "SourceCatalog"
         storage:    "FitsCatalogStorage"
@@ -177,12 +186,44 @@ datasets: {
         tables:        raw_skyTile
     }
     icMatch: {
-        template:      "work/%(date)d/ICMATCH_%(expnum)d_%(filter)s.fits"
+        template:      "icMatch/%(date)d/ICMATCH_%(set)s_%(filter)s_%(date)08d.fits"
         python:        "lsst.afw.table.BaseCatalog"
         persistable:        "BaseCatalog"
         storage:    "FitsCatalogStorage"
         tables:        raw
         tables:        raw_skyTile
+    }
+    src: {
+        template:      "src/SRC-%(field)s_%(set)s_%(filter)s_%(date)08d.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:        "SourceCatalog"
+        storage:    "FitsCatalogStorage"
+        tables:        "raw"
+        tables:        "raw_visit"
+    }
+    transformed_src: {
+        template:      "transformed_src/TRANSFORMEDSRC-%(field)s_%(set)s_%(filter)s_%(date)08d.fits"
+        python:        "lsst.afw.table.BaseCatalog"
+        persistable:   "BaseCatalog"
+        storage:       "FitsCatalogStorage"
+        tables:        "raw"
+        tables:        "raw_visit"
+    }
+    transformed_src_schema: {
+        template:      "schema/transformed_src.fits"
+        python:        "lsst.afw.table.BaseCatalog"
+        persistable:   "BaseCatalog"
+        storage:       "FitsCatalogStorage"
+        tables:        "raw"
+        tables:        "raw_visit"
+    }
+    src_schema: {
+        template:      "schema/src.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "SourceCatalog"
+        storage:       "FitsCatalogStorage"
+        tables:        "raw"
+        tables:        "raw_visit"
     }
     log: {
         template:      "logs/%(date)s/run.log"
