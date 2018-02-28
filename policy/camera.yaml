@@ -1,0 +1,86 @@
+#
+# LSST Data Management System
+# Copyright 2018 LSST Corporation.
+#
+# This product includes software developed by the
+# LSST Project (http://www.lsst.org/).
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the LSST License Statement and
+# the GNU General Public License along with this program.  If not,
+# see <http://www.lsstcorp.org/LegalNotices/>.
+#
+--- # WIYN WHIRC Camera
+#
+# There is one detector with name "VIRGO1"
+
+name: "whirc"
+plateScale: 5.0  # plate scale, in arcseconds on sky/mm
+# 0.1 "/pixel
+# 20 um/pixel = 0.020 mm / pixel
+# 0.1 "/pixel / 0.020 mm/pixel = 5 "/mm
+radialCoeffs: [0.0, 1.0, 0.0, 1.0]
+
+#
+# A single raw exposure
+#
+AMP: &AMP
+    perAmpData: False
+    readCorner: LL
+    rawBBox: [[0, 0], [2048, 2048]]
+    ### 2018-03-01: MWV: Need to actually think through these.
+    rawDataBBox             : [[0,    0], [0,    2000]]  # data region in raw data
+    rawSerialPrescanBBox    : [[0,    0], [0,    2000]]  # serial prescan (often == extended)
+    rawSerialOverscanBBox   : [[2048, 0], [0,    2000]]  # serial overscan
+    rawParallelPrescanBBox  : [[0,    0], [0,       0]]  # pixels digitised before first parallel transfer
+    rawParallelOverscanBBox : [[0, 2000], [0,      48]]  # parallel overscan
+
+    saturation: 65535  # in DN
+    # Linearity correction is still under discussion, so this is a placeholder.
+    linearityType : PROPORTIONAL
+    linearityThreshold : 0
+    linearityMax : 262144                # == saturation of ADC
+    linearityCoeffs : [0, 262144]        # == [linearityThreshold, linearityMax]
+
+    gain: 3.4  # What we're using from Kotulla's reduce.py
+    readNoise: 10  # Completely made up
+
+CCD: &CCD
+    detectorType : 0
+    refpos : [.nan, .nan]
+    offset : [.nan, .nan]
+
+    # trimmed
+    bbox: [[0, 0], [2048, 2048]]
+    pixelSize: [0.020, 0.020] # in mm
+    transformDict: {nativeSys: 'Pixels', transforms: None}
+    transposeDetector: False
+    pitch: 0.0                         # (degrees)
+    yaw: 0.0                           # rotation in plane of camera (degrees)
+    roll: 0.0                          # (degrees)
+
+    amplifiers: {}
+
+CCDs: &CCDs
+  "VIRGO1": &AVIRGO  # First and only sensor
+    << : *CCD
+    id: 0
+    serial: VIRGO1
+    refpos: [1024, 1024]
+    offset: [0, 0]
+
+    amplifiers:
+      "AMP0": &AMP0
+        <<: *AMP
+        flipXY: [False, False]
+        hdu: 1
+        ixy: [0, 0]

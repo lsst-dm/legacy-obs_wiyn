@@ -2,7 +2,7 @@
 
 needCalibRegistry: false
 
-camera:        "../whirc/description/Whirc_geom.paf"
+camera:        "../whirc/description/"
 
 defaultLevel: "field"
 

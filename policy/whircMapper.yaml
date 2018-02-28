@@ -1,0 +1,209 @@
+needCalibRegistry: false
+
+defaultLevel: field
+
+exposures:
+  raw:
+    template: "raw/%(date)d/obj_%(expnum)d.fits"
+    python: lsst.afw.image.DecoratedImageU
+    persistable: DecoratedImageU
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  postISRCCD:
+    template: "%(date)d/obj_%(expnum)d.wp.sky.flat.fits"
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  instcal:
+    template: instcal/%(field)s_%(set)s_%(filter)s_%(date)08d.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  calexp:
+    template: calexp/%(field)_%(set)_%(filter)s_%(date)d.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  biasOut:
+    template: calib/%(date)d/bias_%(expnum)d.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  darkOut:
+    template: calib/%(date)d/dark_%(expnum)d.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  flatOut:
+    template: calib/%(date)d/flat_%(filter)_%(expnum)d.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  coaddTempExp:
+    template: coaddTempExp/$(date)d/coadd_%(filter)s_%(expnum)d.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    tables: raw
+    columns: expnum
+
+calibrations:
+  bias:
+    columns:
+    - date
+    template: calib/%(date)d/bias.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: bias
+  dark:
+    columns:
+      - date
+    template: calib/%(date)d/dark.fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    tables: dark
+  flat:
+    columns:
+    - filter
+    template: calib/%(date)d/flat_%(filter).fits
+    python: lsst.afw.image.expnumF
+    persistable: expnumF
+    storage: FitsStorage
+    level: Ccd
+    reference: raw
+    tables: flat
+
+datasets:
+  ccdexpnumId:
+    template: ignored
+    # Provide something to import, although we actually return a tuple
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  ccdexpnumId_bits:
+    template: ignored
+    # Provide something to import, although we actually return a tuple
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  goodSeeingCoaddId:
+    template: ignored
+    # Provide something to import, although we actually return a Long
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  goodSeeingCoaddId_bits:
+    template: ignored
+    # Provide something to import, although we actually return an int
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  deepCoaddId:
+    template: ignored
+    # Provide something to import, although we actually return a Long
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  deepCoaddId_bits:
+    template: ignored
+    # Provide something to import, although we actually return an int
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  chiSquaredCoaddId:
+    template: ignored
+    # Provide something to import, although we actually return a Long
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  chiSquaredCoaddId_bits:
+    template: ignored
+    # Provide something to import, although we actually return an int
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+
+  icSrc:
+    template: icSrc/ICSRC-%(field)s_%(set)s_%(filter)s_%(date)08d.fits
+    python: lsst.afw.table.SourceCatalog
+    persistable: SourceCatalog
+    storage: FitsCatalogStorage
+    tables: raw
+    tables: raw_skyTile
+  icMatch:
+    template: icMatch/%(date)d/ICMATCH_%(set)s_%(filter)s_%(date)08d.fits
+    python: lsst.afw.table.BaseCatalog
+    persistable: BaseCatalog
+    storage: FitsCatalogStorage
+    tables: raw
+    tables: raw_skyTile
+  src:
+    template: src/SRC-%(field)s_%(set)s_%(filter)s_%(date)08d.fits
+    python: lsst.afw.table.SourceCatalog
+    persistable: SourceCatalog
+    storage: FitsCatalogStorage
+    tables: raw
+    tables: raw_visit
+  transformed_src:
+    template: transformed_src/TRANSFORMEDSRC-%(field)s_%(set)s_%(filter)s_%(date)08d.fits
+    python: lsst.afw.table.BaseCatalog
+    persistable: BaseCatalog
+    storage: FitsCatalogStorage
+    tables: raw
+    tables: raw_visit
+  transformed_src_schema:
+    template: schema/transformed_src.fits
+    python: lsst.afw.table.BaseCatalog
+    persistable: BaseCatalog
+    storage: FitsCatalogStorage
+    tables: raw
+    tables: raw_visit
+  src_schema:
+    template: schema/src.fits
+    python: lsst.afw.table.SourceCatalog
+    persistable: SourceCatalog
+    storage: FitsCatalogStorage
+    tables: raw
+    tables: raw_visit
+  log:
+    template: logs/%(date)s/run.log
+    python: str
+    persistable: None
+    storage: TextStorage
+  logDir:
+    template: logs/%(date)s/
+    python: str
+    persistable: None
+    storage: None

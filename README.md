@@ -5,7 +5,7 @@ DESIRED
 
 mkdir WIYN
 echo 'lsst.obs.wiyn.WhircMapper' > WIYN/_mapper
-ingestImages.py WIYN ${HOME}/release/DR2_images_alpha/\*.fits --mode link 
+ingestImages.py WIYN ${HOME}/release/DR2_images_alpha/\*.fits --mode link
 
 processCcd.py ...  Generate photometry catalogs.
 LOAD CATALOGS INTO DATABASE?

@@ -6,7 +6,7 @@ EXTENSIONS = ["fits", "gz", "fz"]  # Filename extensions to strip off
 
 
 class WhircParseTask(ParseTask):
-    """Parser suitable for lab data"""
+    """Parser suitable for ISRed and stacked data"""
 
     def getInfo(self, filename):
         # Grab the basename

@@ -7,7 +7,7 @@ import lsst.utils.tests as utilsTests
 
 from lsst.pex.policy import Policy
 import lsst.daf.persistence as dafPersist
-from lsst.obs.wiyn.whirc import WhircMapper
+from lsst.obs.wiyn import WhircMapper
 
 import lsst.afw.display.ds9 as ds9
 import lsst.afw.display.utils as displayUtils
@@ -31,6 +31,7 @@ class GetRawTestCase(unittest.TestCase):
 
     def setUp(self):
         self.datadir = os.getenv("TESTDATA_WHIRC_DIR")
+        self.datadir = os.path.join(os.getenv("HOME"), "Research", "WIYN")
         assert self.datadir is not None, "TESTDATA_WHIRC_DIR not defined"
         assert os.path.exists(self.datadir), "testdata_whirc is not setup"
         self.butler = getButler(self.datadir)
