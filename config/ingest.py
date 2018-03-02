@@ -13,6 +13,7 @@ config.parse.translation = {
 }
 config.parse.translators = {
     'visit': 'translate_visit',
+    'ccd': 'translate_ccd'
 }
 config.register.columns = {
     'visit': 'int',
