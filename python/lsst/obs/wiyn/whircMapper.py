@@ -53,6 +53,7 @@ class WhircMakeRawVisitInfo(MakeRawVisitInfo):
         dateObs = self.popIsoDate(md, "DATE-OBS")
         return self.offsetDate(dateObs, 0.5*exposureTime)
 
+
 class WhircMapper(CameraMapper):
     """Mapper for WIYN+WHIRC"""
 
@@ -102,7 +103,7 @@ class WhircMapper(CameraMapper):
     def _computeCcdExposureId(self, dataId):
         """Compute the 64-bit (long) identifier for a CCD exposure.
 
-        @param dataId (dict) Data identifier with visit, ccd
+        @param dataId (dict) Data identifier with year, month, day, expnum
         """
         pathId = self._transformId(dataId)
         # I find it easiest to think about creating a decimal string
