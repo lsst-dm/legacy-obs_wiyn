@@ -19,3 +19,22 @@ class WhircParseTask(ParseTask):
 
     def translate_ccd(self, md):
         return 0  # There's only one
+
+    def translate_visit(self, md):
+        """Generate a unique visit from the timestamp.
+
+        It might be better to use the 1000*runNo + seqNo, but the latter isn't currently set
+
+        Parameters
+        ----------
+        md : `lsst.daf.base.PropertyList or PropertySet`
+            image metadata
+
+        Returns
+        -------
+        visit_num : `int`
+            Visit number, as translated
+        """
+        mjd = md.get("MJD-OBS")
+        mmjd = mjd - 55197              # relative to 2010-01-01, just to make the visits a tiny bit smaller
+        return int(1e5*mmjd)            # 86400s per day, so we need this resolution
