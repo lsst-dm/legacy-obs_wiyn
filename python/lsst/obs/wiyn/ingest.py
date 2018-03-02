@@ -15,6 +15,11 @@ class WhircParseTask(ParseTask):
         while any(basename.endswith("." + ext) for ext in EXTENSIONS):
             basename = basename[:basename.rfind('.')]
         phuInfo['basename'] = basename
+        expnum = int(basename.split('_')[-1])
+        phuInfo['expnum'] = expnum
+        dateobs = phuInfo['date']
+        night = int(dateobs[0:4]+dateobs[5:7]+dateobs[8:10])
+        phuInfo['night'] = night
         return phuInfo, infoList
 
     def translate_ccd(self, md):
