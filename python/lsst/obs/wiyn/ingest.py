@@ -1,5 +1,8 @@
 from __future__ import print_function
+
+from datetime import (datetime, timedelta)
 import os
+
 from lsst.pipe.tasks.ingest import ParseTask
 
 EXTENSIONS = ["fits", "gz", "fz"]  # Filename extensions to strip off
@@ -17,8 +20,17 @@ class WhircParseTask(ParseTask):
         phuInfo['basename'] = basename
         expnum = int(basename.split('_')[-1])
         phuInfo['expnum'] = expnum
-        dateobs = phuInfo['date']
-        night = int(dateobs[0:4]+dateobs[5:7]+dateobs[8:10])
+        # This is a little hokey
+        # The UTC is *almost* always a day ahead of the
+        # beginning of the evening at KPNO (MST=UTC-7).
+        # Exception is during the winter
+        # when we start observations before 17:00 MST.
+        # Should do this using an actual datetime object and add one hour
+        # Then take the YYYYMMDD of the UTC time.
+        dateobs = phuInfo['date'][:-2]  # strip off the decimal seconds
+        dt = datetime.strptime(dateobs+' UTC', '%Y-%m-%dT%H:%M:%S %Z')
+        dt = dt - timedelta(hours=23)
+        night = int(dt.strftime("%Y%m%d"))
         phuInfo['night'] = night
         return phuInfo, infoList
 

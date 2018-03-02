@@ -20,6 +20,7 @@ config.register.columns = {
     'filter': 'text',
     'date': 'text',
     'dateObs': 'text',
+    'night': 'int',
     'expTime': 'double',
     'expnum': 'int',
     'ccd': 'int',
