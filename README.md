@@ -7,7 +7,8 @@ mkdir WIYN
 echo 'lsst.obs.wiyn.WhircMapper' > WIYN/_mapper
 
 # For ingesting raws:
-ingestImages.py WIYN ${TESTDATA_WHIRC_DIR}/raw/20111115/obj*.fits --mode link
+## We ingest all raws: dark, flat, and on-sky
+ingestImages.py WIYN ${TESTDATA_WHIRC_DIR}/raw/20111115/*.fits --mode link
 
 # For ingesting the stacks
 ingestStackImages.py WIYN ${HOME}/release/DR2_images_alpha/\*.fits --mode link
