@@ -4,7 +4,7 @@ defaultLevel: field
 
 exposures:
   raw:
-    template: raw/%(night)d/obj_%(expnum)d.fits
+    template: raw/%(night)08d/obj_%(expnum)03d.fits
     python: lsst.afw.image.DecoratedImageU
     persistable: DecoratedImageU
     storage: FitsStorage
@@ -12,7 +12,7 @@ exposures:
     tables: raw
     columns: expnum
   postISRCCD:
-    template: workspace/%(night)d/obj_%(expnum)d.wp.sky.flat.fits
+    template: workspace/%(night)08d/obj_%(expnum)03d.wp.sky.flat.fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
@@ -28,7 +28,7 @@ exposures:
     tables: raw
     columns: expnum
   calexp:
-    template: calexp/%(field)_%(set)_%(filter)s_%(night)d.fits
+    template: calexp/%(field)_%(set)_%(filter)s_%(night)08d.fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
@@ -36,7 +36,7 @@ exposures:
     tables: raw
     columns: expnum
   biasOut:
-    template: calib/%(night)d/bias_%(expnum)d.fits
+    template: calib/%(night)08d/bias_%(expnum)03d.fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
@@ -44,7 +44,7 @@ exposures:
     tables: raw
     columns: expnum
   darkOut:
-    template: calib/%(night)d/dark_%(expnum)d.fits
+    template: calib/%(night)08d/dark_%(expnum)03d.fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
@@ -52,7 +52,7 @@ exposures:
     tables: raw
     columns: expnum
   flatOut:
-    template: calib/%(night)d/flat_%(filter)_%(expnum)d.fits
+    template: calib/%(night)08d/flat_%(filter)_%(expnum)03d.fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
@@ -60,7 +60,7 @@ exposures:
     tables: raw
     columns: expnum
   coaddTempExp:
-    template: coaddTempExp/$(night)d/coadd_%(filter)s_%(expnum)d.fits
+    template: coaddTempExp/%(night)08d/coadd_%(filter)s_%(expnum)03d.fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
@@ -68,28 +68,19 @@ exposures:
     columns: expnum
 
 calibrations:
-  bias:
-    columns:
-    - date
-    template: calib/%(night)d/bias.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
-    storage: FitsStorage
-    level: Ccd
-    tables: bias
-  dark:
+  dark:  # master dark frame in the calibration registry, as produced by constructDark.py
     columns:
       - date
-    template: calib/%(night)d/dark.fits
+    template: calib/%(night)08d/dark.fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
     level: Ccd
     tables: dark
-  flat:
+  flat:  # master flat frame in the calibration registry, as produced by constructFlat.py
     columns:
     - filter
-    template: calib/%(night)d/flat_%(filter).fits
+    template: calib/%(night)08d/flat_%(filter).fits
     python: lsst.afw.image.expnumF
     persistable: expnumF
     storage: FitsStorage
@@ -163,7 +154,7 @@ datasets:
     tables: raw
     tables: raw_skyTile
   icMatch:
-    template: icMatch/%(night)d/ICMATCH_%(set)s_%(filter)s_%(night)08d.fits
+    template: icMatch/%(night)08d/ICMATCH_%(set)s_%(filter)s_%(night)08d.fits
     python: lsst.afw.table.BaseCatalog
     persistable: BaseCatalog
     storage: FitsCatalogStorage
