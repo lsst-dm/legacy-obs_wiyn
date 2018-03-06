@@ -13,56 +13,64 @@ exposures:
     columns: expnum
   postISRCCD:
     template: workspace/%(night)08d/obj_%(expnum)03d.wp.sky.flat.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
     tables: raw
     columns: expnum
-  instcal:
-    template: instcal/%(field)s_%(set)s_%(filter)s_%(night)08d.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+  stack:
+    template: stack/%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
-    tables: raw
-    columns: expnum
+    tables: stack
+    columns:
+      - field
+      - set
+      - filter
+      - night
   calexp:
-    template: calexp/%(field)_%(set)_%(filter)s_%(night)08d.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    template: calexp/%(field)_%(seq)_%(filter)s_%(night)08d.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
-    tables: raw
-    columns: expnum
+    tables: stack
+    columns:
+      - field
+      - set
+      - filter
+      - night
   biasOut:
     template: calib/%(night)08d/bias_%(expnum)03d.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
     tables: raw
     columns: expnum
   darkOut:
     template: calib/%(night)08d/dark_%(expnum)03d.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
     tables: raw
     columns: expnum
   flatOut:
     template: calib/%(night)08d/flat_%(filter)_%(expnum)03d.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
     tables: raw
     columns: expnum
   coaddTempExp:
     template: coaddTempExp/%(night)08d/coadd_%(filter)s_%(expnum)03d.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     tables: raw
     columns: expnum
@@ -72,8 +80,8 @@ calibrations:
     columns:
       - date
     template: calib/%(night)08d/dark.fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
     tables: dark
@@ -81,8 +89,8 @@ calibrations:
     columns:
     - filter
     template: calib/%(night)08d/flat_%(filter).fits
-    python: lsst.afw.image.expnumF
-    persistable: expnumF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
     level: Ccd
     reference: raw
@@ -147,28 +155,28 @@ datasets:
     tables: raw
 
   icSrc:
-    template: icSrc/ICSRC-%(field)s_%(set)s_%(filter)s_%(night)08d.fits
+    template: icSrc/ICSRC-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
     python: lsst.afw.table.SourceCatalog
     persistable: SourceCatalog
     storage: FitsCatalogStorage
     tables: raw
     tables: raw_skyTile
   icMatch:
-    template: icMatch/%(night)08d/ICMATCH_%(set)s_%(filter)s_%(night)08d.fits
+    template: icMatch/%(night)08d/ICMATCH_%(seq)s_%(filter)s_%(night)08d.fits
     python: lsst.afw.table.BaseCatalog
     persistable: BaseCatalog
     storage: FitsCatalogStorage
     tables: raw
     tables: raw_skyTile
   src:
-    template: src/SRC-%(field)s_%(set)s_%(filter)s_%(night)08d.fits
+    template: src/SRC-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
     python: lsst.afw.table.SourceCatalog
     persistable: SourceCatalog
     storage: FitsCatalogStorage
     tables: raw
     tables: raw_visit
   transformed_src:
-    template: transformed_src/TRANSFORMEDSRC-%(field)s_%(set)s_%(filter)s_%(night)08d.fits
+    template: transformed_src/TRANSFORMEDSRC-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
     python: lsst.afw.table.BaseCatalog
     persistable: BaseCatalog
     storage: FitsCatalogStorage
