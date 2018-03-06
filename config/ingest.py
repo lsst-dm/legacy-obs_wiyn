@@ -9,7 +9,6 @@ config.parse.translation = {
     'filter': 'FILTER1',
     'date': 'DATE-OBS',
     'dateObs': 'DATE-OBS',
-    'imageType': 'IMGTYPE',
 }
 config.parse.translators = {
     'visit': 'translate_visit',
