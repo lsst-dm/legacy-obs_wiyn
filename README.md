@@ -3,6 +3,7 @@ LSST DM Pipeline for WIYN+WHIRC Data.
 Example usage:
 DESIRED
 
+```
 mkdir WIYN
 echo 'lsst.obs.wiyn.WhircMapper' > WIYN/_mapper
 
@@ -11,7 +12,10 @@ echo 'lsst.obs.wiyn.WhircMapper' > WIYN/_mapper
 ingestImages.py WIYN ${TESTDATA_WHIRC_DIR}/raw/20111115/*.fits --mode link
 
 # For ingesting the stacks
-ingestStackImages.py WIYN ${HOME}/release/DR2_images_alpha/\*.fits --mode link
+# This --create will only work the first time, when we still need to create 'stack' and 'stack_visit'
+# Once they exist, running again with --create would lead to an error
+ingestImages.py WIYN /Users/wmwv/Research/SweetSpot/DR1_data/stacks/s_alpha/\*.fits --mode link --configfile ${OBS_WIYN_DIR}/config/ingestStack.py --create
+```
 
 processCcd.py ...  Generate photometry catalogs.
 LOAD CATALOGS INTO DATABASE?
