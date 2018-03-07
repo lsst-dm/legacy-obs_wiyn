@@ -17,7 +17,11 @@ ingestImages.py WIYN ${TESTDATA_WHIRC_DIR}/raw/20111115/*.fits --mode link
 ingestImages.py WIYN /Users/wmwv/Research/SweetSpot/DR1_data/stacks/s_alpha/\*.fits --mode link --configfile ${OBS_WIYN_DIR}/config/ingestStack.py --create
 ```
 
-processCcd.py ...  Generate photometry catalogs.
+processCcd.py WIYN --id basename=iPTF13ebh_A_J_20131120 --output WIYN --configfile ${OBS_WIYN_DIR}/config/processCcd.py
+
+processCcd.py WIYN --id basename=iPTF13ebh_A_J_20131120 --output WIYN --clobber-config --clobber-versions
+
+Generate photometry catalogs.
 LOAD CATALOGS INTO DATABASE?
 
 Future goals:
