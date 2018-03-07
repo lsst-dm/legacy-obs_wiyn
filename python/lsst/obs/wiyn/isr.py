@@ -29,16 +29,21 @@ import lsst.pex.config as pexConfig
 class WhircNullIsrConfig(pexConfig.Config):
     doWrite = pexConfig.Field(
         dtype=bool,
-        doc="Persist loaded data as a postISRCCD? The default is false, to avoid duplicating data.",
+        doc="""
+        Persist loaded data as a postISRCCD?
+        The default is false, to avoid duplicating data.
+        """,
         default=False,
     )
     datasetType = pexConfig.Field(
         dtype=str,
-        doc="Dataset type for input data; read by ProcessCcdTask; users will typically leave this alone",
+        doc="""
+        Dataset type for input data; read by ProcessCcdTask;
+        users will typically leave this alone
+        """,
         default="stack",
-)
+    )
 
-from lsst.ip.isr import IsrTask
 
 class WhircNullIsrTask(pipeBase.Task):
     """!
@@ -55,15 +60,14 @@ class WhircNullIsrTask(pipeBase.Task):
         """Return the ISRed stack image
 
         - Process raw exposure in run()
-        - Persist the ISR-corrected exposure as "postISRCCD" if config.doWrite is True
 
-        \param[in] sensorRef -- daf.persistence.butlerSubset.ButlerDataRef of the
+        \param[in] sensorRef -- daf.persistence.butlerSubset.ButlerDataRef of
                                 detector data to be processed
         \return a pipeBase.Struct with fields:
         - exposure: the exposure after application of ISR
         """
         self.log.info("Fetch stack image on sensor %s" % (sensorRef.dataId))
-        Exposure = sensorRef.get(datasetType)
+        exposure = sensorRef.get(datasetType)
 
         return pipeBase.Struct(
             exposure=exposure,
