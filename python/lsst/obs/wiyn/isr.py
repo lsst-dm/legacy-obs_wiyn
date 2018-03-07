@@ -51,7 +51,7 @@ class WhircNullIsrTask(pipeBase.Task):
     _DefaultName = "isr"
 
     @pipeBase.timeMethod
-    def runDataRef(self, sensorRef, datesetType='stack'):
+    def runDataRef(self, sensorRef, datasetType='stack'):
         """Return the ISRed stack image
 
         - Process raw exposure in run()
