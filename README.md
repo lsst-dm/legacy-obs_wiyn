@@ -14,7 +14,7 @@ ingestImages.py WIYN ${TESTDATA_WHIRC_DIR}/raw/20111115/*.fits --mode link
 # For ingesting the stacks
 # This --create will only work the first time, when we still need to create 'stack' and 'stack_visit'
 # Once they exist, running again with --create would lead to an error
-ingestImages.py WIYN /Users/wmwv/Research/SweetSpot/DR1_data/stacks/s_alpha/\*.fits --mode link --configfile ${OBS_WIYN_DIR}/config/ingestStack.py --create
+ingestImages.py WIYN /Users/wmwv/Research/SweetSpot/DR1_data/stacks/\*[0-9].fits --mode link --configfile ${OBS_WIYN_DIR}/config/ingestStack.py --create
 ```
 
 processCcd.py WIYN --id basename=iPTF13ebh_A_J_20131120 --output WIYN --configfile ${OBS_WIYN_DIR}/config/processCcd.py
