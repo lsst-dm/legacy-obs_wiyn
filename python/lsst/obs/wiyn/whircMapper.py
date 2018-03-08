@@ -103,9 +103,19 @@ class WhircMapper(CameraMapper):
     def _computeCcdExposureId(self, dataId):
         """Compute the 64-bit (long) identifier for a CCD exposure.
 
-        @param dataId (dict) Data identifier with year, month, day, expnum
+        @param dataId (dict) Data identifier with
+               year, month, day, expnum
+                 or
+               night, expnum.
         """
         pathId = self._transformId(dataId)
+        # If we need year, month, day then calculate those
+        if 'year' not in pathId:
+            night = str(pathId['night'])
+            year, month, day = night[:4], night[4:6], night[6:8]
+            pathId['year'] = int(year)
+            pathId['month'] = int(month)
+            pathId['day'] = int(day)
         # I find it easiest to think about creating a decimal string
         template = '{year:04d}{month:02d}{day:02d}{expnum:06d}'
         # and then converting it to an int:
