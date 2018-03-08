@@ -28,7 +28,7 @@ exposures:
     tables: stack
     columns:
       - field
-      - set
+      - seq
       - filter
       - night
   calexp:
@@ -40,7 +40,7 @@ exposures:
     tables: stack
     columns:
       - field
-      - set
+      - seq
       - filter
       - night
   biasOut:
