@@ -68,6 +68,7 @@ class WhircMapper(CameraMapper):
         CameraMapper.__init__(self, policy, os.path.dirname(policyFile),
                               **kwargs)
 
+        afwImageUtils.defineFilter('OPAQUE', lambdaEff=0)  # nm
         afwImageUtils.defineFilter('OPEN', lambdaEff=1750)  # nm
         afwImageUtils.defineFilter('J', lambdaEff=1250)
         afwImageUtils.defineFilter('H', lambdaEff=1650)
