@@ -103,6 +103,46 @@ class WhircStackParseTask(ParseTask):
         mmjd = mjd - 55197
         return int(1e5*mmjd)  # 86400s per day, so we need this resolution
 
+    def translate_expnum(self, md):
+        """Generate an expnum for a stack
+
+        Take the first individual image used in the image combination
+
+        Parameters
+        ----------
+        md : `lsst.daf.base.PropertyList or PropertySet`
+            image metadata
+
+        Returns
+        -------
+        expnum : `int`
+            Exposure number
+        """
+        ref_obj = md.get('IMCMB001')
+        return self.__extract_expnum_from_imcb(ref_obj)
+
+    def __extract_expnum_from_imcb(self, ref_obj):
+        """Extract the expnum of the reference (first) individual image in a stack.
+
+        Notes:
+        This is a separate function to make it easy to test without having
+        to construct a metadata object.
+
+        Returns
+        -------
+        expnum : `int`
+
+        >>> self.__extract_expnum_from_imcb('obj__104.wreg.fits')
+        104
+        >>> self.__extract_expnum_from_imcb('Obj__245.wreg.fits')
+        245
+        >>> self.__extract_expnum_from_imcb('obj_535.wreg.fits')
+        535
+        """
+        expnum_extract = re.compile("[Oo]bj_+([0-9]{3})\.wreg.fits")
+        expnum = expnum_extract.match(ref_obj).groups()[0]
+        return int(expnum)
+
     def getDestination(self, butler, info, filename):
         """Get destination for the file
 
