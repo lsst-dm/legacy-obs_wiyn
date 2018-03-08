@@ -77,6 +77,7 @@ class WhircStackParseTask(ParseTask):
         # Extract 'seq' from filename.  It's not stored in header.
         basenameRegex = "([^_]+)_([A-Z])_(J|H|KS)_([0-9]{8,})"
         field, seq, filt, night = re.match(basenameRegex, basename).groups()
+        phuInfo['field'] = field
         phuInfo['seq'] = seq
         phuInfo['night'] = int(night)
         return phuInfo, infoList
