@@ -161,10 +161,6 @@ class WhircMapper(CameraMapper):
         obsMidpoint = dafBase.DateTime(mjd, dafBase.DateTime.MJD, dafBase.DateTime.UTC) + exptime / 2
         calib.setMidTime(obsMidpoint)
 
-    def _setFilter(self, mapping, item, dataId):
-        item.setFilter(afwImage.Filter("FILTER1"))
-        # FILTER2 is always set to "OPEN"
-
     def std_dark(self, item, dataId):
         mapping = self.calibrations['dark']
         item = self._standardizeExposure(mapping, item, dataId, filter=False, trimmed=False)
