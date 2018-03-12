@@ -21,10 +21,10 @@ exposures:
     columns: expnum
   stack:
     template: stack/%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
-    python: lsst.afw.image.DecoratedImageF
-    persistable: DecoratedImageF
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
     storage: FitsStorage
-    level: Ccd
+    level: field
     tables: stack
     columns:
       - field
@@ -36,7 +36,7 @@ exposures:
     python: lsst.afw.image.ExposureF
     persistable: ExposureF
     storage: FitsStorage
-    level: Ccd
+    level: field
     tables: stack
     columns:
       - field
