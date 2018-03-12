@@ -17,7 +17,7 @@ ingestImages.py WIYN ${TESTDATA_WHIRC_DIR}/raw/20111115/*.fits --mode link
 ingestImages.py WIYN /Users/wmwv/Research/SweetSpot/DR1_data/stacks/\*[0-9].fits --mode link --configfile ${OBS_WIYN_DIR}/config/ingestStack.py --create
 ```
 
-processCcd.py WIYN --id basename=iPTF13ebh_A_J_20131120 --output WIYN --configfile ${OBS_WIYN_DIR}/config/processCcd.py
+processCcd.py WIYN --id field=PTF11pbp seq=A filter=H night=20131020  --output WIYN --configfile ${OBS_WIYN_DIR}/config/processCcd.py
 
 processCcd.py WIYN --id basename=iPTF13ebh_A_J_20131120 --output WIYN --clobber-config --clobber-versions
 
