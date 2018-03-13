@@ -139,7 +139,7 @@ class WhircStackParseTask(ParseTask):
         >>> self.__extract_expnum_from_imcb('obj_535.wreg.fits')
         535
         """
-        expnum_extract = re.compile("[Oo]bj_+([0-9]{3})\.wreg.fits")
+        expnum_extract = re.compile(".+_+([0-9]{3})\.wreg.fits")
         expnum = expnum_extract.match(ref_obj).groups()[0]
         return int(expnum)
 
