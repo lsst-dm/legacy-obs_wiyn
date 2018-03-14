@@ -206,3 +206,6 @@ datasets:
     python: str
     persistable: None
     storage: None
+
+  processCcd_metadata:
+    template: processCcd_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d.boost
