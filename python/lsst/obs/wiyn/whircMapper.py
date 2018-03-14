@@ -117,8 +117,9 @@ class WhircMapper(CameraMapper):
             pathId['year'] = int(year)
             pathId['month'] = int(month)
             pathId['day'] = int(day)
+        pathId['expnum'] = int(pathId['expnum'])
         # I find it easiest to think about creating a decimal string
-        template = '{year:04d}{month:02d}{day:02d}{expnum:06d}'
+        template = '{year:04d}{month:02d}{day:02d}{expnum:03d}'
         # and then converting it to an int:
         return int(template.format(**pathId))
 
@@ -126,7 +127,9 @@ class WhircMapper(CameraMapper):
         return self._computeCcdExposureId(dataId)
 
     def bypass_ccdExposureId_bits(self, datasetType, pythonType, location, dataId):
-        return 32  # not really, but this leaves plenty of space for sources
+        # Because we're storing CcdExposureId as a string->int
+        # we need many more bits than actual information
+        return 48
 
     def _extractDetectorName(self, dataId):
         return "VIRGO1"

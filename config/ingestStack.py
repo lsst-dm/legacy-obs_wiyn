@@ -13,6 +13,7 @@ config.parse.translation = {
 config.parse.translators = {
     'visit': 'translate_visit',
     'expnum': 'translate_expnum',
+    'expId': 'translate_expnum',
 }
 config.register.table = 'stack'
 config.register.columns = {
@@ -26,6 +27,7 @@ config.register.columns = {
     'dateObs': 'text',
     'expTime': 'double',
     'imageType': 'text',
+    'expId': 'int',
     'expnum': 'int',
 }
 config.register.visit = list(config.register.columns.keys())
