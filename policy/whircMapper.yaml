@@ -32,10 +32,7 @@ exposures:
       - filter
       - night
   calexp:
-    template: calexp/%(field)_%(seq)_%(filter)s_%(night)08d.fits
-    python: lsst.afw.image.ExposureF
-    persistable: ExposureF
-    storage: FitsStorage
+    template: calexp/%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
     level: field
     tables: stack
     columns:
@@ -60,7 +57,7 @@ exposures:
     tables: raw
     columns: expnum
   flatOut:
-    template: calib/%(night)08d/flat_%(filter)_%(expnum)03d.fits
+    template: calib/%(night)08d/flat_%(filter)s_%(expnum)03d.fits
     python: lsst.afw.image.ExposureF
     persistable: ExposureF
     storage: FitsStorage
@@ -159,18 +156,10 @@ datasets:
 
   icSrc:
     template: icSrc/ICSRC-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
-    python: lsst.afw.table.SourceCatalog
-    persistable: SourceCatalog
-    storage: FitsCatalogStorage
-    tables: raw
-    tables: raw_skyTile
   icMatch:
     template: icMatch/%(night)08d/ICMATCH_%(seq)s_%(filter)s_%(night)08d.fits
-    python: lsst.afw.table.BaseCatalog
-    persistable: BaseCatalog
-    storage: FitsCatalogStorage
-    tables: raw
-    tables: raw_skyTile
+  srcMatch:
+    template: srcMatch/%(night)08d/ICMATCH_%(seq)s_%(filter)s_%(night)08d.fits
   src:
     template: src/SRC-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
     python: lsst.afw.table.SourceCatalog
@@ -185,20 +174,8 @@ datasets:
     storage: FitsCatalogStorage
     tables: raw
     tables: raw_visit
-  transformed_src_schema:
-    template: schema/transformed_src.fits
-    python: lsst.afw.table.BaseCatalog
-    persistable: BaseCatalog
-    storage: FitsCatalogStorage
-    tables: raw
-    tables: raw_visit
-  src_schema:
-    template: schema/src.fits
-    python: lsst.afw.table.SourceCatalog
-    persistable: SourceCatalog
-    storage: FitsCatalogStorage
-    tables: raw
-    tables: raw_visit
+  calexpBackground:
+    template: calexp/BKGD-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
   log:
     template: logs/%(night)s/run.log
     python: str
