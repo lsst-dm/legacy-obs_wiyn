@@ -74,6 +74,9 @@ exposures:
     storage: FitsStorage
     tables: raw
     columns: expnum
+  deepCoadd_directWarp:
+    # template: deepCoadd/%(filter)s/%(tract)d/%(patch)s/warp-%(filter)s-%(tract)d-%(patch)s-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+    template: deepCoadd/%(filter)s/%(tract)d/%(patch)s/warp-%(filter)s-%(tract)d-%(patch)s.fits
 
 calibrations:
   dark:  # master dark frame in the calibration registry, as produced by constructDark.py
