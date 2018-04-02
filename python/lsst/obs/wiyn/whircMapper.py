@@ -185,7 +185,7 @@ class WhircMapper(CameraMapper):
 
     def bypass_deepMergedCoaddId_bits(self, *args, **kwargs):
         """The number of bits used up for patch ID bits"""
-        return 8
+        return 64 - self._nbit_id
 
     def bypass_deepMergedCoaddId(self, datasetType, pythonType, location, dataId):
         return self._computeCoaddExposureId(dataId, False)
