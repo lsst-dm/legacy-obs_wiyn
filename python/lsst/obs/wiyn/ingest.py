@@ -6,7 +6,7 @@ import re
 
 from lsst.pipe.tasks.ingest import ParseTask
 
-EXTENSIONS = ["fits", "gz", "fz"]  # Filename extensions to strip off
+EXTENSIONS = ["fits", "gz", "fz", "lsst"]  # Filename extensions to strip off
 
 
 class WhircParseTask(ParseTask):
