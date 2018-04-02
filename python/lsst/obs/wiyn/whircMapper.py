@@ -74,6 +74,12 @@ class WhircMapper(CameraMapper):
         afwImageUtils.defineFilter('H', lambdaEff=1650)
         afwImageUtils.defineFilter('KS', lambdaEff=2175, alias=['Ks'])
 
+        self._nbit_tract = 8
+        self._nbit_patch = 8
+        self._nbit_filter = 8
+
+        self._nbit_id = 64 - (self._nbit_tract + 2*self._nbit_patch + self._nbit_filter)
+
     def _makeCamera(self, policy, repositoryDir):
         """Make a camera (instance of lsst.afw.cameraGeom.Camera)
         describing the camera geometry.
@@ -147,6 +153,42 @@ class WhircMapper(CameraMapper):
 
     def bypass_stackExposureId_bits(self, datasetType, pythonType, location, dataId):
         return 32  # not really, but this leaves plenty of space for sources
+
+    def _computeCoaddExposureId(self, dataId, singleFilter):
+        """Compute the 64-bit (long) identifier for a coadd.
+
+        @param dataId (dict)       Data identifier with tract and patch.
+        @param singleFilter (bool) True means the desired ID is for a single-
+                                   filter coadd, in which case dataId
+                                   must contain filter.
+
+        Adapted from obs_subaru/python/lsst/obs/hsc/hscMapper.py
+        """
+        tract = int(dataId['tract'])
+        if tract < 0 or tract >= 2**self._nbit_tract:
+            raise RuntimeError('tract not in range [0,%d)' % (2**self._nbit_tract))
+        patchX, patchY = [int(patch) for patch in dataId['patch'].split(',')]
+        for p in (patchX, patchY):
+            if p < 0 or p >= 2**self._nbit_patch:
+                raise RuntimeError('patch component not in range [0, %d)' % 2**self._nbit_patch)
+        oid = (((tract << self._nbit_patch) + patchX) << self._nbit_patch) + patchY
+        if singleFilter:
+            return (oid << self._nbit_filter) + afwImage.Filter(dataId['filter']).getId()
+        return oid
+
+    def bypass_deepCoaddId_bits(self, *args, **kwargs):
+        """The number of bits used up for patch ID bits"""
+        return 64 - self._nbit_id
+
+    def bypass_deepCoaddId(self, datasetType, pythonType, location, dataId):
+        return self._computeCoaddExposureId(dataId, True)
+
+    def bypass_deepMergedCoaddId_bits(self, *args, **kwargs):
+        """The number of bits used up for patch ID bits"""
+        return 8
+
+    def bypass_deepMergedCoaddId(self, datasetType, pythonType, location, dataId):
+        return self._computeCoaddExposureId(dataId, False)
 
     def _setTimes(self, mapping, item, dataId):
         """Set the exposure time and exposure midpoint in the calib object in an Exposure.
