@@ -76,15 +76,6 @@ exposures:
   deepCoadd:
     template: deepCoadd/%(field)s/%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
 
-deep_assembleCoadd_metadata:
-    template: deep_assembleCoadd_metadata/%(filter)s/%(tract)d/%(patch)s.boost
-deepCoadd_calexp_background:
-    template: deepCoadd-results/%(filter)s/%(tract)d/%(patch)s/bkgd-%(filter)s-%(tract)d-%(patch)s.fits
-deepCoadd_forced_metadata:
-    template: deepCoadd_forcedPhotCoadd_metadata/%(filter)s/%(tract)d/%(patch)s.boost
-deep_makeCoaddTempExp_metadata:
-    template: deep_makeCoaddTempExp_metadata/%(filter)s/%(tract)d/%(patch)s_metadata.boost
-
 calibrations:
   dark:  # master dark frame in the calibration registry, as produced by constructDark.py
     columns:
@@ -171,3 +162,19 @@ datasets:
 
   processCcd_metadata:
     template: processCcd_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d.boost
+
+  deepCoadd_measMatch:
+      tables: stack
+      template: deepCoadd_measMatch/%(field)s/MEASMATCH-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+  deepCoadd_measMatchFull:
+      tables: stack
+      template: deepCoadd_measMatchFull/%(field)s/MEASMATCHFULL-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+
+deep_assembleCoadd_metadata:
+    template: deep_assembleCoadd_metadata/%(filter)s/%(tract)d/%(patch)s.boost
+deepCoadd_calexp_background:
+    template: deepCoadd-results/%(filter)s/%(tract)d/%(patch)s/bkgd-%(filter)s-%(tract)d-%(patch)s.fits
+deepCoadd_forced_metadata:
+    template: deepCoadd_forcedPhotCoadd_metadata/%(filter)s/%(tract)d/%(patch)s.boost
+deep_makeCoaddTempExp_metadata:
+    template: deep_makeCoaddTempExp_metadata/%(filter)s/%(tract)d/%(patch)s_metadata.boost
