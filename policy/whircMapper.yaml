@@ -179,15 +179,15 @@ datasets:
   measureCoaddSources_metadata:
     template: deepCoadd-results/%(field)s/measMD-%(filter)s-%(tract)d-%(patch)s.fits
   deepCoadd_ref:
-    template: deepCoadd-results/merged/%(field)s/%(patch)s/ref-%(tract)d-%(patch)s.fits
+    template: deepCoadd-results/merged/%(tract)d/%(patch)s/ref-%(tract)d-%(patch)s.fits
   mergeCoaddMeasurements:
-    template: deepCoadd-results/merged/%(field)s/mergeMeasMD-%(filter)s-%(tract)d-%(patch)s.fits
+    template: deepCoadd-results/merged/%(tract)d/mergeMeasMD-%(filter)s-%(tract)d-%(patch)s.fits
   deepCoadd_det:
-    template: deepCoadd-results/merged/%(field)s/det-%(filter)s-%(tract)d-%(patch)s.fits
+    template: deepCoadd-results/merged/%(tract)d/det-%(filter)s-%(tract)d-%(patch)s.fits
   deepCoadd_mergeDet:
-    template: deepCoadd-results/merged/%(field)s/mergeDet-%(tract)d-%(patch)s.fits
+    template: deepCoadd-results/merged/%(tract)d/mergeDet-%(tract)d-%(patch)s.fits
   mergeCoaddDetections_metadata:
-    template: deepCoadd-results/merged/%(field)s/mergeDetMD-%(tract)d-%(patch)s.fits
+    template: deepCoadd-results/merged/%(tract)d/mergeDetMD-%(tract)d-%(patch)s.fits
   deepCoadd_forced_src:
     template: deepCoadd-results/forced_src-%(field)s/%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
 
