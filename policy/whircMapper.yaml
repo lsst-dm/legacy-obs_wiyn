@@ -69,7 +69,7 @@ exposures:
     python: lsst.afw.image.ExposureF
     persistable: ExposureF
     storage: FitsStorage
-    tables: raw
+    tables: stack
     columns: expnum
   deepCoadd_directWarp:
     template: deepCoadd/%(filter)s/%(field)s/warp-%(filter)s-%(tract)d-%(patch)s-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
@@ -147,15 +147,15 @@ datasets:
     python: lsst.afw.table.SourceCatalog
     persistable: SourceCatalog
     storage: FitsCatalogStorage
-    tables: raw
-    tables: raw_visit
+    tables: stack
+    tables: stack_visit
   transformed_src:
     template: transformed_src/TRANSFORMEDSRC-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
     python: lsst.afw.table.BaseCatalog
     persistable: BaseCatalog
     storage: FitsCatalogStorage
-    tables: raw
-    tables: raw_visit
+    tables: stack
+    tables: stack_visit
   calexpBackground:
     template: calexp/BKGD-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
   log:
