@@ -189,7 +189,7 @@ datasets:
   mergeCoaddDetections_metadata:
     template: deepCoadd-results/merged/%(tract)d/mergeDetMD-%(tract)d-%(patch)s.fits
   deepCoadd_forced_src:
-    template: deepCoadd-results/forced_src-%(field)s/%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+    template: deepCoadd-results/%(field)s/forced_src-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
 
   deep_assembleCoadd_metadata:
       template: deep_assembleCoadd_metadata/%(filter)s/%(tract)d/%(patch)s.boost
