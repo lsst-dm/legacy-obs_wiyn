@@ -1,0 +1,201 @@
+needCalibRegistry: false
+
+defaultLevel: field
+
+exposures:
+  raw:
+    template: raw/%(night)08d/obj_%(expnum)03d.fits
+    python: lsst.afw.image.DecoratedImageI
+    persistable: DecoratedImageI
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  postISRCCD:
+    template: workspace/%(night)08d/obj_%(expnum)03d.wp.sky.flat.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  stack:
+    template: stack/%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    level: field
+    tables: stack
+    columns:
+      - field
+      - seq
+      - filter
+      - night
+  calexp:
+    template: calexp/%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+    level: field
+    tables: stack
+    columns:
+      - field
+      - seq
+      - filter
+      - night
+  biasOut:
+    template: calib/%(night)08d/bias_%(expnum)03d.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  darkOut:
+    template: calib/%(night)08d/dark_%(expnum)03d.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  flatOut:
+    template: calib/%(night)08d/flat_%(filter)s_%(expnum)03d.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    level: Ccd
+    tables: raw
+    columns: expnum
+  coaddTempExp:
+    template: coaddTempExp/%(night)08d/coadd_%(filter)s_%(expnum)03d.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    tables: stack
+    columns: expnum
+  deepCoadd_directWarp:
+    template: deepCoadd/%(filter)s/%(field)s/warp-%(filter)s-%(tract)d-%(patch)s-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+  deepCoadd:
+    template: deepCoadd/%(field)s/%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+  deepCoadd_calexp:
+    template: deepCoadd-results/%(field)s/calexp-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+
+calibrations:
+  dark:  # master dark frame in the calibration registry, as produced by constructDark.py
+    columns:
+      - date
+    template: calib/%(night)08d/dark.fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    level: Ccd
+    tables: dark
+  flat:  # master flat frame in the calibration registry, as produced by constructFlat.py
+    columns:
+    - filter
+    template: calib/%(night)08d/flat_%(filter).fits
+    python: lsst.afw.image.ExposureF
+    persistable: ExposureF
+    storage: FitsStorage
+    level: Ccd
+    reference: raw
+    tables: flat
+
+datasets:
+  ccdexpnumId:
+    template: ignored
+    # Provide something to import, although we actually return a tuple
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  ccdexpnumId_bits:
+    template: ignored
+    # Provide something to import, although we actually return a tuple
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  chiSquaredCoaddId:
+    template: ignored
+    # Provide something to import, although we actually return a Long
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+  chiSquaredCoaddId_bits:
+    template: ignored
+    # Provide something to import, although we actually return an int
+    python: lsst.daf.base.PropertySet
+    persistable: ignored
+    storage: ignored
+    tables: raw
+
+  icSrc:
+    template: icSrc/icSrc-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+  icMatch:
+    template: icMatch/%(night)08d/ICMATCH_%(seq)s_%(filter)s_%(night)08d.fits
+  srcMatch:
+    template: srcMatch/%(night)08d/ICMATCH_%(seq)s_%(filter)s_%(night)08d.fits
+  src:
+    template: src/src-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+    python: lsst.afw.table.SourceCatalog
+    persistable: SourceCatalog
+    storage: FitsCatalogStorage
+    tables: stack
+    tables: stack_visit
+  transformed_src:
+    template: transformed_src/transformedsrc-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+    python: lsst.afw.table.BaseCatalog
+    persistable: BaseCatalog
+    storage: FitsCatalogStorage
+    tables: stack
+    tables: stack_visit
+  calexpBackground:
+    template: calexp/bkgd-%(field)s_%(seq)s_%(filter)s_%(night)08d.fits
+  log:
+    template: logs/%(night)s/run.log
+    python: str
+    persistable: None
+    storage: TextStorage
+  logDir:
+    template: logs/%(night)s/
+    python: str
+    persistable: None
+    storage: None
+
+  processCcd_metadata:
+    template: processCcd_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d.boost
+
+  deepCoadd_measMatch:
+    tables: stack
+    template: deepCoadd_measMatch/%(field)s/measMatch-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+  deepCoadd_measMatchFull:
+    tables: stack
+    template: deepCoadd_measMatchFull/%(field)s/measMatchFull-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+
+  deepCoadd_meas:
+    template: deepCoadd-results/%(field)s/meas-%(filter)s-%(tract)d-%(patch)s.fits
+  detectCoaddSources_metadata:
+    template: deepCoadd-results/%(field)s/detectMD-%(filter)s-%(tract)d-%(patch)s.fits
+  measureCoaddSources_metadata:
+    template: deepCoadd-results/%(field)s/measMD-%(filter)s-%(tract)d-%(patch)s.fits
+  deepCoadd_ref:
+    template: deepCoadd-results/merged/%(tract)d/%(patch)s/ref-%(tract)d-%(patch)s.fits
+  mergeCoaddMeasurements:
+    template: deepCoadd-results/merged/%(tract)d/mergeMeasMD-%(filter)s-%(tract)d-%(patch)s.fits
+  deepCoadd_det:
+    template: deepCoadd-results/merged/%(tract)d/det-%(filter)s-%(tract)d-%(patch)s.fits
+  deepCoadd_mergeDet:
+    template: deepCoadd-results/merged/%(tract)d/mergeDet-%(tract)d-%(patch)s.fits
+  mergeCoaddDetections_metadata:
+    template: deepCoadd-results/merged/%(tract)d/mergeDetMD-%(tract)d-%(patch)s.fits
+  deepCoadd_forced_src:
+    template: deepCoadd-results/%(field)s/forced_src-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+
+  deep_assembleCoadd_metadata:
+      template: deep_assembleCoadd_metadata/%(filter)s/%(tract)d/%(patch)s.boost
+  deepCoadd_calexp_background:
+      template: deepCoadd-results/%(field)s/bkgd-%(filter)s-%(tract)d-%(patch)s.fits
+  deepCoadd_forced_metadata:
+      template: deepCoadd_forcedPhotCoadd_metadata/%(field)s/%(filter)s/%(tract)d_%(patch)s.boost
+  deep_makeCoaddTempExp_metadata:
+      template: deep_makeCoaddTempExp_metadata/%(field)s/%(filter)s/%(tract)d_%(patch)s_metadata.boost

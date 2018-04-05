@@ -5,12 +5,8 @@ import os
 import unittest
 import lsst.utils.tests as utilsTests
 
-from lsst.pex.policy import Policy
 import lsst.daf.persistence as dafPersist
-from lsst.obs.wiyn.whirc import WhircMapper
-
-import lsst.afw.display.ds9 as ds9
-import lsst.afw.display.utils as displayUtils
+from lsst.obs.wiyn import WhircMapper
 
 import lsst.afw.cameraGeom as cameraGeom
 import lsst.afw.cameraGeom.utils as cameraGeomUtils
@@ -21,8 +17,9 @@ except NameError:
 
 
 def getButler(datadir):
-    bf = dafPersist.ButlerFactory(mapper=WhircMapper(root=os.path.join(datadir, "raw"),
-                                                     calibRoot=os.path.join(datadir, "calib")))
+    mapper = WhircMapper(root=os.path.join(datadir, "raw"),
+                         calibRoot=os.path.join(datadir, "calib"))
+    bf = dafPersist.ButlerFactory(mapper=mapper)
     return bf.create()
 
 
@@ -30,8 +27,9 @@ class GetRawTestCase(unittest.TestCase):
     """Testing butler raw image retrieval"""
 
     def setUp(self):
-        self.datadir = os.getenv("TESTDATA_WHIRC_DIR")
-        assert self.datadir, "testdata_whirc is not setup"
+        self.datadir = os.path.join(os.getenv("TESTDATA_WHIRC_DIR"), "repo")
+        assert self.datadir is not None, "TESTDATA_WHIRC_DIR not defined"
+        assert os.path.exists(self.datadir), "testdata_whirc is not setup"
         self.butler = getButler(self.datadir)
         self.size = (2144, 2050)
         self.dataId = {'date': 20111115,
@@ -59,7 +57,7 @@ class GetRawTestCase(unittest.TestCase):
 
     def testRaw(self):
         """Test retrieval of raw image"""
-        ccd='VIRGO1'
+        ccd = 'VIRGO1'
         raw = self.butler.get("raw", self.dataId, ccd=ccd)
 
         self.assertExposure(raw, ccd)
