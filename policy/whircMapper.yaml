@@ -208,3 +208,6 @@ datasets:
       template: deepDiff_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.boost
   deepDiff_diaSrc:
       template: deepDiff_diaSrc/diasrc-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+
+  forcedPhotCcd_metadata:
+      template: forcedPhotCcd_metadata/forced-src-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.boost
