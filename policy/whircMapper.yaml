@@ -213,3 +213,5 @@ datasets:
 
   forcedPhotCcd_metadata:
       template: forcedPhotCcd_metadata/forced-src-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.boost
+  forced_src:
+      template: forced_src/forced-src-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
