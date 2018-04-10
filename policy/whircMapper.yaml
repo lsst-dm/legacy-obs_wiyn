@@ -20,7 +20,7 @@ exposures:
     tables: raw
     columns: expnum
   stack:
-    template: stack/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: stack/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
     python: lsst.afw.image.ExposureF
     persistable: ExposureF
     storage: FitsStorage
@@ -31,8 +31,9 @@ exposures:
       - seq
       - filter
       - night
+      - expnum
   calexp:
-    template: calexp/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: calexp/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
     level: field
     tables: stack
     columns:
@@ -40,6 +41,7 @@ exposures:
       - seq
       - filter
       - night
+      - expnum
   biasOut:
     template: calib/%(night)08d/bias_%(expnum)03d.fits
     python: lsst.afw.image.ExposureF
@@ -72,15 +74,15 @@ exposures:
     tables: stack
     columns: expnum
   deepCoadd_directWarp:
-    template: deepCoadd/%(filter)s/%(field)s/warp-%(filter)s-%(tract)d-%(patch)s-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: deepCoadd/%(filter)s/%(field)s/warp-%(filter)s-%(tract)d-%(patch)s-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
   deepCoadd:
     template: deepCoadd/%(field)s/%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
   deepCoadd_calexp:
     template: deepCoadd-results/%(field)s/calexp-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
   deepDiff_matchedExp:
-      template: deepDiff_matchedExp/matchedexp-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+      template: deepDiff_matchedExp/matchedexp-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
   deepDiff_differenceExp:
-      template: deepDiff_differenceExp/diff-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+      template: deepDiff_differenceExp/diff-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
 
 calibrations:
   dark:  # master dark frame in the calibration registry, as produced by constructDark.py
@@ -134,27 +136,27 @@ datasets:
     tables: raw
 
   icSrc:
-    template: icSrc/icSrc-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: icSrc/icSrc-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
   icMatch:
-    template: icMatch/%(night)08d/icmatch_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: icMatch/%(night)08d/icmatch_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
   srcMatch:
-    template: srcMatch/%(night)08d/srcmatch_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: srcMatch/%(night)08d/srcmatch_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
   src:
-    template: src/src-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: src/src-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
     python: lsst.afw.table.SourceCatalog
     persistable: SourceCatalog
     storage: FitsCatalogStorage
     tables: stack
     tables: stack_visit
   transformed_src:
-    template: transformed_src/transformedsrc-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: transformed_src/transformedsrc-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
     python: lsst.afw.table.BaseCatalog
     persistable: BaseCatalog
     storage: FitsCatalogStorage
     tables: stack
     tables: stack_visit
   calexpBackground:
-    template: calexp/bkgd-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+    template: calexp/bkgd-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
   log:
     template: logs/%(night)s/run.log
     python: str
@@ -167,7 +169,7 @@ datasets:
     storage: None
 
   processCcd_metadata:
-    template: processCcd_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.boost
+    template: processCcd_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.boost
 
   deepCoadd_measMatch:
     tables: stack
@@ -205,9 +207,9 @@ datasets:
       template: deep_makeCoaddTempExp_metadata/%(field)s/%(filter)s/%(tract)d_%(patch)s_metadata.boost
 
   deepDiff_metadata:
-      template: deepDiff_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.boost
+      template: deepDiff_metadata/%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.boost
   deepDiff_diaSrc:
-      template: deepDiff_diaSrc/diasrc-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.fits
+      template: deepDiff_diaSrc/diasrc-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
 
   forcedPhotCcd_metadata:
-      template: forcedPhotCcd_metadata/forced-src-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)d.boost
+      template: forcedPhotCcd_metadata/forced-src-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.boost
