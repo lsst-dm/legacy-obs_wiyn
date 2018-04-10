@@ -219,4 +219,17 @@ class WhircMapper(CameraMapper):
             keyDict['ccd'] = int
         if datasetType == "flat":
             keyDict['ccd'] = int
+        if datasetType == "stack":
+            keyDict['field'] = str
+            keyDict['seq'] = str
+            keyDict['filter'] = str
+            keyDict['night'] = int
+            keyDict['expnum'] = int
+        if datasetType == "forced_src":
+            keyDict['field'] = str
+            keyDict['seq'] = str
+            keyDict['filter'] = str
+            keyDict['night'] = int
+            keyDict['expnum'] = int
+            keyDict['tract'] = int
         return keyDict
