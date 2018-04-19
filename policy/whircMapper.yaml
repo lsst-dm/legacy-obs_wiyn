@@ -79,6 +79,7 @@ exposures:
     template: deepCoadd/%(field)s/%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
   deepCoadd_calexp:
     template: deepCoadd-results/%(field)s/calexp-%(field)s_%(filter)s_%(tract)d_%(patch)s.fits
+    tables: stack
   deepDiff_matchedExp:
       template: deepDiff_matchedExp/matchedexp-%(field)s_%(seq)s_%(filter)s_%(night)08d_%(expnum)03d.fits
   deepDiff_differenceExp:
@@ -188,6 +189,7 @@ datasets:
     template: deepCoadd-results/merged/%(tract)d/%(patch)s/ref-%(tract)d-%(patch)s.fits
   mergeCoaddMeasurements:
     template: deepCoadd-results/merged/%(tract)d/mergeMeasMD-%(filter)s-%(tract)d-%(patch)s.fits
+    tables: stack
   deepCoadd_det:
     template: deepCoadd-results/merged/%(tract)d/det-%(filter)s-%(tract)d-%(patch)s.fits
   deepCoadd_mergeDet:
