@@ -7,5 +7,5 @@ setupRequired(python_future)
 setupRequired(numpy)
 setupRequired(utils)
 
-envAppend(PYTHONPATH, ${PRODUCT_DIR}/python)
-envAppend(PATH, ${PRODUCT_DIR}/bin)
+envPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
+envPrepend(PATH, ${PRODUCT_DIR}/bin)
