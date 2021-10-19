@@ -24,6 +24,7 @@ from __future__ import absolute_import, division, print_function
 
 import lsst.pipe.base as pipeBase
 import lsst.pex.config as pexConfig
+from lsst.utils.timer import timeMethod
 
 
 class WhircNullIsrConfig(pexConfig.Config):
@@ -55,7 +56,7 @@ class WhircNullIsrTask(pipeBase.Task):
     ConfigClass = WhircNullIsrConfig
     _DefaultName = "isr"
 
-    @pipeBase.timeMethod
+    @timeMethod
     def runDataRef(self, sensorRef, datasetType='stack'):
         """Return the ISRed stack image
 
